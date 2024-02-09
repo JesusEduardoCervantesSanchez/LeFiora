@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LeFiora.Data
+namespace LeFiora.AccesoDatos
 {
     public class ApplicationDbContext : IdentityDbContext
     {

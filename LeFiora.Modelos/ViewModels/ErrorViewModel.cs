@@ -1,4 +1,4 @@
-namespace LeFiora.Models
+namespace LeFiora.Modelos.ViewModels
 {
     public class ErrorViewModel
     {

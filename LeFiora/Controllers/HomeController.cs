@@ -1,4 +1,4 @@
-﻿using LeFiora.Models;
+﻿using LeFiora.Modelos.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
