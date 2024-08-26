@@ -22,7 +22,7 @@ namespace LeFiora.AccesoDatos.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LeFiora.Modelos.Flores", b =>
+            modelBuilder.Entity("LeFiora.Modelos.Catalago", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,21 +32,191 @@ namespace LeFiora.AccesoDatos.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("FechaFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Existencia")
-                        .HasColumnType("int");
+                    b.Property<bool>("InHomePage")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Catalagos");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ImagenURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Precio")
+                    b.Property<bool>("InHomePage")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ImagenURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<double?>("Precio")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<string>("Tamaño")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoTamaño")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoCatalago", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CatalagoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoId", "CatalagoId");
+
+                    b.HasIndex("CatalagoId");
+
+                    b.ToTable("ProductosCatalagos");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoCategoria", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoId", "CategoriaId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("ProductosCategorias");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoPromocion", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PromocionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoId", "PromocionId");
+
+                    b.HasIndex("PromocionId");
+
+                    b.ToTable("ProductosPromociones");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.Promocion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CantidadCompra")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CantidadGratis")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("FechaFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InHomePage")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("TipoDescuento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("ValorDescuento")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Flores");
+                    b.ToTable("Promociones");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -249,6 +419,63 @@ namespace LeFiora.AccesoDatos.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoCatalago", b =>
+                {
+                    b.HasOne("LeFiora.Modelos.Catalago", "Catalago")
+                        .WithMany()
+                        .HasForeignKey("CatalagoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("LeFiora.Modelos.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Catalago");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoCategoria", b =>
+                {
+                    b.HasOne("LeFiora.Modelos.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("LeFiora.Modelos.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("LeFiora.Modelos.ProductoPromocion", b =>
+                {
+                    b.HasOne("LeFiora.Modelos.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("LeFiora.Modelos.Promocion", "Promocion")
+                        .WithMany()
+                        .HasForeignKey("PromocionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+
+                    b.Navigation("Promocion");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

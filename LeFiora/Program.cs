@@ -1,4 +1,6 @@
 using LeFiora.AccesoDatos;
+using LeFiora.AccesoDatos.Repositorio.IRepositorio;
+using LeFiora.AccesoDatos.Repositorio;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();    
 
 var app = builder.Build();
 

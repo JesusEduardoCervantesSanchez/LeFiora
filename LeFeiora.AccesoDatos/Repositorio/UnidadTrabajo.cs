@@ -10,11 +10,18 @@ namespace LeFiora.AccesoDatos.Repositorio
     public class UnidadTrabajo : IUnidadTrabajo
     {
         private readonly ApplicationDbContext _db;
-        public IFlorRepositorio Flor { get; set; }
+
+        public ICategoriaRepositorio Categoria { get; set; }
+        public ICatalagoRepositorio Catalago { get; set; }
+        public IPromocionRepositorio Promocion { get; set; }
+        public IProductoRepositorio Producto { get; set; }
+
         public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
-            Flor = new FlorRepositorio(_db);
+            Categoria = new CategoriaRepositorio(_db);
+            Catalago = new CatalagoRepositorio(_db);
+            Promocion = new PromocionRepositorio(_db);
         }
 
 

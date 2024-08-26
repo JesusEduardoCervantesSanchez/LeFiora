@@ -8,8 +8,10 @@ namespace LeFiora.AccesoDatos.Repositorio.IRepositorio
 {
     public interface IUnidadTrabajo : IDisposable
     {
-        IFlorRepositorio Flor { get; }
-
+        ICategoriaRepositorio Categoria {  get; }
+        ICatalagoRepositorio Catalago { get; }
+        IPromocionRepositorio Promocion { get; }
+        IProductoRepositorio Producto { get; }
         Task Guardar();
     }
 }

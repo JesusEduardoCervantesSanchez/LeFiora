@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LeFiora.AccesoDatos.Repositorio.IRepositorio;
 using Microsoft.EntityFrameworkCore;
+using SistemaInventario.Modelos.Especificaciones;
 
 namespace LeFiora.AccesoDatos.Repositorio
 {
@@ -75,6 +76,56 @@ namespace LeFiora.AccesoDatos.Repositorio
             }
             return await query.ToListAsync();
 
+        }
+
+        public IEnumerable<T> ObtenerTodosLista(Expression<Func<T, bool>> filtro = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string incluirPropiedades = null, bool isTracking = true)
+        {
+            IQueryable<T> query = dbSet;
+            if (filtro != null)
+            {
+                query = query.Where(filtro);
+            }
+            if (incluirPropiedades != null)
+            {
+                foreach (var incluirProp in incluirPropiedades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(incluirProp);
+                }
+            }
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            if (!isTracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return  query.ToList();
+        }
+
+        public PageList<T> ObtenerTodosPaginado(Parametros para, Expression<Func<T, bool>> filtro = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string incluirPropiedades = null, bool isTracking = true)
+        {
+            IQueryable<T> query = dbSet;
+            if (filtro != null)
+            {
+                query = query.Where(filtro);
+            }
+            if (incluirPropiedades != null)
+            {
+                foreach (var incluirProp in incluirPropiedades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(incluirProp);
+                }
+            }
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            if (!isTracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return PageList<T>.ToPagesList(query, para.pageNumber, para.pageSize);
         }
 
         public void Remover(T entidad)

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="padding-top:180px;">
+    <div class="col-lg-6">
+        <h2 class="text-primary" style="color:black !important;">Lista de Promociones</h2>
+    </div>
+    <div class="col-lg-6">
+        <a class="btn btn-outline-primary" asp-action="Upsert">
+            <i class="bi bi-plus-square-fill m-1"></i>Crear nueva promocion
+        </a>
+    </div>
+</div>
+
+<div  class="p-4 border rounded bg-light">
+    <table id="tblDatos" class="table table-responsive table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>In Home Page</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Final</th>
+                <th>Tipo Descuento</th>
+                <th>Descuento</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/Promocion.js"></script>
+}

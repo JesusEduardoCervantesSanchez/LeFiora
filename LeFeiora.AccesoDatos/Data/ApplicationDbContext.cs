@@ -11,7 +11,14 @@ namespace LeFiora.AccesoDatos
             : base(options)
         {
         }
-        public DbSet<Flores> Flores { get; set; }
+
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Catalago> Catalagos { get; set; }
+        public DbSet<Promocion> Promociones { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<ProductoCategoria> ProductosCategorias { get; set; }
+        public DbSet<ProductoCatalago> ProductosCatalagos { get; set; }
+        public DbSet<ProductoPromocion> ProductosPromociones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

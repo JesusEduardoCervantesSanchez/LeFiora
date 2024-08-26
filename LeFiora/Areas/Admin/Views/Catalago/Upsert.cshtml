@@ -1,0 +1,190 @@
+﻿@model LeFiora.Modelos.Catalago
+@using LeFiora.Utilidades
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear nuevo catalago";
+}
+
+<form method="post" enctype="multipart/form-data" style="padding-top:180px;">
+    @if (Model.Id != 0)
+    {
+        titulo = "Editar catalago";
+        <input asp-for="Id" id="id" hidden />
+        <input asp-for="ImagenURL" hidden />
+    }
+
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2 class="text-info">@titulo</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="container">
+                    <!--Campo nombre-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre del catalago</label>
+                            <input asp-for="Nombre" class="form-control" id="nombre" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Campo descripcion-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Descripcion del catalago</label>
+                            <input asp-for="Descripcion" class="form-control" />
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Campo Imagen-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Imagen del catalago</label>
+                            <input type="file" accept="image/png,image/gif,image/jpeg"
+                                   name="files" id="imagenId" class="form-control" />
+                            <span asp-validation-for="ImagenURL" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Estado-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>In Home Page?</label>
+                            <select asp-for="InHomePage" class="form-select">
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="InHomePage" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Fecha Inicio-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Fecha de inicio del catalago</label>
+                            @if(Model.Id != 0)
+                            {
+                                <input asp-for="FechaInicio" type="date" class="form-control" id="inicio" />
+                            }
+                            else
+                            {
+                                <input asp-for="FechaInicio" type="date" class="form-control" id="inicio" value=""/>
+
+                            }
+                            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Fecha Final-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Fecha final del catalago</label>
+                            @if(Model.Id != 0){
+                                <input asp-for="FechaFinal" type="date" class="form-control" id="final"/>
+                            }
+                            else
+                            {
+                                <input asp-for="FechaFinal" type="date" class="form-control" id="final" value=""/>
+                            }
+                            <span asp-validation-for="FechaFinal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Botones-->
+                    <br />
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (Model.Id != 0)
+                        {
+                            <partial name="_botonesActualizarYRegresar" model="Model.Id" />
+                        }
+                        else
+                        {
+                            <button type="submit" onclick="return validarImagen()" class="btn btn-success">
+                                <i class="bi bi-plus-square-fill"></i>
+                                Crear
+
+                            </button>
+                            <a class="btn btn-success" asp-action="Index">
+                                <i class="bi bi-arrow-return-left"></i>
+                                Regresar
+                            </a>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--Mostra-->
+            <div class="col-4">
+                @if (Model.Id != 0)
+                {
+                    <img src="@DS.ImagenCatalagoRuta@Model.ImagenURL"
+                         width="100%" style="border-radius:5px;border:1px solid;color:cadetblue" />
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function validarImagen() {
+            if (document.getElementById("imagenId").value == "") {
+                swal("ERROR", "Seleccione una imagen", "error");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>
+        document.getElementById("nombre").addEventListener('change', function () {
+            ValidarNombre();
+        });
+
+        function ValidarNombre() {
+            var url = '@Url.Content("~/")' + "Admin/Catalago/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombre = document.getElementById("nombre");
+                        swal("ERROR", "Este nombre ya existe", "error");
+                        nombre.value = "";
+                    }
+                });
+            })
+        }
+    </script>
+    <script>
+
+        document.getElementById("inicio").addEventListener('change', function () {
+            ValidarFechas();
+        });
+
+        document.getElementById("final").addEventListener('change', function () {
+            ValidarFechas();
+        });
+
+        function ValidarFechas() {
+            var fechaInicial = document.getElementById("inicio").value;
+            var fechaFinal = document.getElementById("final").value;
+            var hoy = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
+            if (fechaInicial < hoy) {
+                swal("ERROR", "La fecha de inicio no puede ser menor que hoy.", "error");
+                document.getElementById("inicio").value = "";
+            } else if (fechaFinal && fechaFinal <= fechaInicial) {
+                swal("ERROR", "La fecha final debe ser mayor que la fecha inicial.", "error");
+                document.getElementById("final").value = "";
+            }
+        }
+    </script>
+
+}
+

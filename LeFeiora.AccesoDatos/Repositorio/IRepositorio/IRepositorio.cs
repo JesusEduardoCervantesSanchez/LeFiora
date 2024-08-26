@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaInventario.Modelos.Especificaciones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,6 +16,19 @@ namespace LeFiora.AccesoDatos.Repositorio.IRepositorio
                                     string incluirPropiedades = null,
                                     bool isTracking = true
                                     );
+        IEnumerable<T> ObtenerTodosLista(Expression<Func<T, bool>> filtro = null,
+                            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                            string incluirPropiedades = null,
+                            bool isTracking = true
+                            );
+
+        PageList<T> ObtenerTodosPaginado(Parametros para,
+                            Expression<Func<T, bool>> filtro = null,
+                            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                            string incluirPropiedades = null,
+                            bool isTracking = true
+                            );
+
         Task<T> ObtenerPrimero(Expression<Func<T, bool>> filtro = null,
                                       string incluirPropiedades = null,
                                       bool isTracking = true

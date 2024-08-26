@@ -1,8 +1,30 @@
-﻿@{
+﻿@model IEnumerable<LeFiora.Modelos.ViewModels.HomeViewModel>
+@{
     ViewData["Title"] = "Home Page";
+    string ruta = "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenido a LeFiora</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="scrollt">
+    @foreach (var item in Model)
+    {
+
+        if (item.Tipo.Equals("categorias"))
+        {
+            ruta = "/Imagenes/Categorias/" + item.ImagenURL;
+        }else if (item.Tipo.Equals("catalagos"))
+        {
+            ruta = "/Imagenes/Catalagos/" + item.ImagenURL;
+        }
+        else if (item.Tipo.Equals("promociones"))
+        {
+            ruta = "/Imagenes/Promociones/" + item.ImagenURL;
+        }
+
+        <div class="section" 
+            style="background-image: url('@ruta');">
+            <div class="section-name">
+                @item.Nombre
+            </div>
+        </div>
+    }
 </div>

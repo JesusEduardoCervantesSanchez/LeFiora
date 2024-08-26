@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace LeFiora.AccesoDatos.Repositorio.IRepositorio
 {
-    public interface IFlorRepositorio:IRepositorio<Flores>
+    public interface ICategoriaRepositorio : IRepositorio<Categoria>
     {
-        void Actualizar(Flores flor);
+        void Actualizar(Categoria categoria);
     }
 }

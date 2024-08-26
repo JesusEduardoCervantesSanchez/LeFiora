@@ -8,6 +8,13 @@ html {
   }
 }
 
+.belgrano-regular {
+    font-family: "Belgrano", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -17,6 +24,58 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+
+.scrollt {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: 100vh;
+    scrollbar-width: none;
+    scroll-behavior: smooth; /* Añade una transición suave al hacer scroll */
+}
+
+.section {
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    scroll-snap-align: start;
+    transition: opacity 0.5s ease; /* Transición suave para la opacidad */
+}
+
+/* Animación al cambiar de sección */
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.section {
+    animation: fade-in-out 1s ease; /* Aplica la animación */
+}
+
+.section-name {
+    font-size: 20px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+    color: white;
+    background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    padding: 5px 10px;
+    border-radius: 5px;
 }
